@@ -40,8 +40,8 @@ jobs:
         aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
-        application_name: DMS
-        environment_name: DMS-env
+        application_name: DMSBack
+        environment_name: DMSBack-env
         version_label: ${{ github.run_id}}
         version_description: ${{ github.sha }}
         region: us-east-1
