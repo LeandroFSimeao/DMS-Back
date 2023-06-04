@@ -16,6 +16,9 @@ namespace DMS.Data
                 .HasOne(item_pedido => item_pedido.Pedido)
                 .WithMany(pedido => pedido.Itens_Pedido)
                 .HasForeignKey(item_pedido => item_pedido.IdPedido);
+
+            builder.Entity<Pedido>()
+                .HasOne(pedido => pedido.C)
         }
 
         public DbSet<Cliente> Clientes { get; set; }
