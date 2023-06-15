@@ -26,5 +26,6 @@ namespace DMS.Models
         [JsonIgnore]
         public virtual List<Item_pedido> Itens_Pedido { get; set; }
         public virtual Cliente Cliente { get; set; }
+        public virtual Entrega Entrega { get; set; }
     }
 }
