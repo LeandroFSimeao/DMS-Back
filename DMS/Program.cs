@@ -1,4 +1,6 @@
 using DMS.Data;
+using DMS.Repositories;
+using DMS.Repositories.Interfaces;
 using DMS.Services;
 using DMS.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IEntregaService, EntregaService>();
+builder.Services.AddScoped<IEntregaRepository, EntregaRepository>();
+builder.Services.AddScoped<IPedidoService, PedidoService>();
+builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseMySql(builder.Configuration.GetConnectionString("DMSConnection"), new MySqlServerVersion(new Version(8,0))));
 
