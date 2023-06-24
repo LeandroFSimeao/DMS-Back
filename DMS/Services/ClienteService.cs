@@ -7,15 +7,28 @@ namespace DMS.Services
 {
     public class ClienteService : IClienteService
     {
+        private IGoogleApiHelper _googleApiHelper;
         private IClienteRepository _clienteRepository;
-        public ClienteService(IClienteRepository clienteRepository)
+        public ClienteService(IClienteRepository clienteRepository, IGoogleApiHelper googleApiHelper)
         {
             _clienteRepository = clienteRepository;
+            _googleApiHelper = googleApiHelper;
         }
         public ClienteDTO Create(ClienteDTO dto) => _clienteRepository.Create(dto);
-        public Result DeleteById(int id) => _clienteRepository.DeleteById(id);      
+        public FluentResults.Result DeleteById(int id) => _clienteRepository.DeleteById(id);
+
+        public async Task<ClienteDTO> GeocodificaCliente(int clienteId)
+        {
+            ClienteDTO cliente = GetById(clienteId);
+            GeoCodeResponse response = await _googleApiHelper.Geocoding(cliente.Logradouro +", "+ cliente.Numero);
+            cliente.Latitude = response.results[0].geometry.location.lat.ToString();
+            cliente.Longitude = response.results[0].geometry.location.lng.ToString();
+            Update(cliente);
+            return cliente;
+        }
+
         public List<ClienteDTO> GetAll() => _clienteRepository.GetAll();
         public ClienteDTO GetById(int id) =>  _clienteRepository.GetById(id);
-        public Result Update(ClienteDTO dto) => _clienteRepository.Update(dto);
+        public FluentResults.Result Update(ClienteDTO dto) => _clienteRepository.Update(dto);
     }
 }

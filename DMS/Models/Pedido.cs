@@ -10,7 +10,7 @@ namespace DMS.Models
         public int IdPedido { get; set; }
         [Required]
         public int IdCliente { get; set; }
-        public int idEntrega { get; set; }
+        public int? idEntrega { get; set; }
         [Required]
         public string Nf { get; set; }
         [Required]

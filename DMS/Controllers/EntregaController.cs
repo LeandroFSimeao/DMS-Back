@@ -25,6 +25,13 @@ namespace DMS.Controllers
 
         }
 
+        [HttpPost("GerarEntregaOtimizada")]
+        public IActionResult GerarEntregaOtimizada(List<int> idPedidos)
+        {
+            EntregaDTO readDTO = _entregaService.GerarEntregaOtimizada(idPedidos);
+            return CreatedAtAction(nameof(RecuperaEntregaPorId), new { Id = readDTO.IdEntrega }, readDTO);
+        }
+
         [HttpGet]
         public IActionResult RecuperaEntregas()
         {

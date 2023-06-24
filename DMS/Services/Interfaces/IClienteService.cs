@@ -6,9 +6,10 @@ namespace DMS.Services.Interfaces
     public interface IClienteService
     {
         ClienteDTO Create(ClienteDTO dto);
-        Result DeleteById(int id);
+        FluentResults.Result DeleteById(int id);
+        Task<ClienteDTO> GeocodificaCliente(int clienteId);
         List<ClienteDTO> GetAll();
         ClienteDTO GetById(int id);
-        Result Update(ClienteDTO dto);
+        FluentResults.Result Update(ClienteDTO dto);
     }
 }

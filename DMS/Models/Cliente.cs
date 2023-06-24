@@ -16,6 +16,8 @@ namespace DMS.Models
         public string Logradouro { get; set; }
         [Required]
         public int Numero { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         [JsonIgnore]
         public virtual List<Pedido> Pedidos { get; set; }
     }

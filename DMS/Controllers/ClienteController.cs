@@ -58,5 +58,13 @@ namespace DMS.Controllers
             if(resultado.IsFailed) return NotFound();
             return NoContent();
         }
+
+        [HttpPatch]
+        public async Task<IActionResult> GeocodificaCliente(int clienteId)
+        {
+            ClienteDTO readDTO = await _clienteService.GeocodificaCliente(clienteId);
+            if (readDTO == null) return NotFound();
+            return Ok(readDTO);
+        }
     }
 }

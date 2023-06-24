@@ -3,6 +3,7 @@ using System;
 using DMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DMS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623232732_adicionandoLatituteelongitude")]
+    partial class adicionandoLatituteelongitude
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,7 +129,7 @@ namespace DMS.Migrations
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int?>("idEntrega")
+                    b.Property<int>("idEntrega")
                         .HasColumnType("int");
 
                     b.HasKey("IdPedido");
@@ -159,7 +162,9 @@ namespace DMS.Migrations
 
                     b.HasOne("DMS.Models.Entrega", "Entrega")
                         .WithMany("Pedidos")
-                        .HasForeignKey("idEntrega");
+                        .HasForeignKey("idEntrega")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cliente");
 
