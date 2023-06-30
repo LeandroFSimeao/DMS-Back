@@ -21,7 +21,7 @@ namespace DMS.Services
         public EntregaDTO Create(EntregaDTO dto) => _entregaRepository.Create(dto);
         public Result DeleteById(int id) => _entregaRepository.DeleteById(id);
 
-        public EntregaDTO GerarEntregaOtimizada(List<int> idPedidos)
+        public async Task<EntregaDTO> GerarEntregaOtimizada(List<int> idPedidos)
         {
             List<string> enderecos = new List<string>();
 
@@ -32,9 +32,10 @@ namespace DMS.Services
                 string endereco = cliente.Latitude.Replace(',','.')+","+cliente.Longitude.Replace(",",".");
                 enderecos.Add(endereco);
             }
-            _googleApiHelper.GeraRotaOtimizada(enderecos);
+            EntregaDTO entregaDTO = await _googleApiHelper.GeraRotaOtimizada(enderecos);
+            entregaDTO = Create(entregaDTO);
 
-            return new EntregaDTO();
+            return entregaDTO;
         }
 
         public List<EntregaDTO> GetAll() => _entregaRepository.GetAll();

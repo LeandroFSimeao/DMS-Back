@@ -59,7 +59,7 @@ namespace DMS.Controllers
             return NoContent();
         }
 
-        [HttpPatch]
+        [HttpPatch("Geocodifica/{clienteId}")]
         public async Task<IActionResult> GeocodificaCliente(int clienteId)
         {
             ClienteDTO readDTO = await _clienteService.GeocodificaCliente(clienteId);

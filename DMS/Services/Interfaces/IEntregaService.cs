@@ -7,7 +7,7 @@ namespace DMS.Services.Interfaces
     {
         EntregaDTO Create(EntregaDTO dto);
         Result DeleteById(int id);
-        EntregaDTO GerarEntregaOtimizada(List<int> idPedidos);
+        Task<EntregaDTO> GerarEntregaOtimizada(List<int> idPedidos);
         List<EntregaDTO> GetAll();
         EntregaDTO GetById(int id);
         Result Update(EntregaDTO dto);
