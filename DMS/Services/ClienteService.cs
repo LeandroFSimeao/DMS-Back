@@ -27,7 +27,16 @@ namespace DMS.Services
             return cliente;
         }
 
-        public List<ClienteDTO> GetAll() => _clienteRepository.GetAll();
+        public List<ClienteDTO> GetAll() {
+            try
+            {
+            return _clienteRepository.GetAll();
+
+            }catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
         public ClienteDTO GetById(int id) =>  _clienteRepository.GetById(id);
         public FluentResults.Result Update(ClienteDTO dto) => _clienteRepository.Update(dto);
     }

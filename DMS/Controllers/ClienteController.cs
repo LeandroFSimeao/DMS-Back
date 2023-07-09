@@ -17,7 +17,8 @@ namespace DMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult AdicionarCliente(ClienteDTO dto) {
+        public IActionResult AdicionarCliente(ClienteDTO dto)
+        {
 
             ClienteDTO readDTO = _clienteService.Create(dto);
             return CreatedAtAction(nameof(RecuperaClientePorId), new { Id = readDTO.IdCliente }, readDTO);
@@ -27,13 +28,22 @@ namespace DMS.Controllers
         [HttpGet]
         public IActionResult RecuperaClientes()
         {
-            List<ClienteDTO> readDTO = _clienteService.GetAll();
-            if (readDTO !=null) return Ok(readDTO);
-            return NotFound();
+            try
+            {
+                List<ClienteDTO> readDTO = _clienteService.GetAll();
+                if (readDTO != null) return Ok(readDTO);
+                return NotFound();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpGet("{id}")]
-        public IActionResult RecuperaClientePorId(int id) {
+        public IActionResult RecuperaClientePorId(int id)
+        {
 
             ClienteDTO readDTO = _clienteService.GetById(id);
             if (readDTO == null) return NotFound();
@@ -52,10 +62,11 @@ namespace DMS.Controllers
 
         [HttpDelete("{id}")]
 
-        public IActionResult DeletaCliente(int id) {
+        public IActionResult DeletaCliente(int id)
+        {
 
             Result resultado = _clienteService.DeleteById(id);
-            if(resultado.IsFailed) return NotFound();
+            if (resultado.IsFailed) return NotFound();
             return NoContent();
         }
 

@@ -31,7 +31,7 @@ namespace DMS.Repositories
         public ClienteDTO GetById(int id)
         {
             Cliente cliente = _context.Clientes.FirstOrDefault(cliente => cliente.IdCliente == id);
-            if(cliente != null)
+            if (cliente != null)
             {
                 ClienteDTO clienteDTO = _mapper.Map<ClienteDTO>(cliente);
 
@@ -42,21 +42,29 @@ namespace DMS.Repositories
 
         public List<ClienteDTO> GetAll()
         {
-            List<Cliente> clientes = _context.Clientes.ToList();
-
-            if (clientes != null)
+            try
             {
-                List<ClienteDTO> readDTO = _mapper.Map<List<ClienteDTO>>(clientes);
-                return readDTO;
-            }
+                List<Cliente> clientes = _context.Clientes.ToList();
 
-            return null;
+                if (clientes != null)
+                {
+                    List<ClienteDTO> readDTO = _mapper.Map<List<ClienteDTO>>(clientes);
+                    return readDTO;
+                }
+
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Result Update(ClienteDTO dto)
         {
             Cliente clientes = _context.Clientes.FirstOrDefault(clientes => clientes.IdCliente == dto.IdCliente);
-            if(clientes == null)
+            if (clientes == null)
             {
                 return Result.Fail("Cliente não encontrado");
             }
@@ -69,7 +77,7 @@ namespace DMS.Repositories
         public Result DeleteById(int id)
         {
             Cliente clientes = _context.Clientes.FirstOrDefault(clientes => clientes.IdCliente == id);
-            if(clientes == null)
+            if (clientes == null)
             {
                 return Result.Fail("Cliente não encontrado");
             }
