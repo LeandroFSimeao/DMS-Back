@@ -25,7 +25,8 @@ namespace DMS.Data
             builder.Entity<Pedido>()
                 .HasOne(pedido => pedido.Entrega)
                 .WithMany(Entrega => Entrega.Pedidos)
-                .HasForeignKey(pedido => pedido.idEntrega);
+                .HasForeignKey(pedido => pedido.idEntrega)
+                .IsRequired(false);
 
         }
 

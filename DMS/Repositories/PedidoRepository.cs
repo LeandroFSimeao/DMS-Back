@@ -20,12 +20,20 @@ namespace DMS.Repositories
 
         public PedidoDTO Create(PedidoDTO dto)
         {
-            Pedido pedido = _mapper.Map<Pedido>(dto);
+            try
+            {
+                Pedido pedido = _mapper.Map<Pedido>(dto);
 
-            _context.Pedidos.Add(pedido);
-            _context.SaveChanges();
+                _context.Pedidos.Add(pedido);
+                _context.SaveChanges();
 
-            return _mapper.Map<PedidoDTO>(pedido);
+                return _mapper.Map<PedidoDTO>(pedido);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public PedidoDTO GetById(int id)

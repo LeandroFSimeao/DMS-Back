@@ -23,19 +23,39 @@ namespace DMS.Services
 
         public async Task<EntregaDTO> GerarEntregaOtimizada(List<int> idPedidos)
         {
-            List<string> enderecos = new List<string>();
-
-            foreach (var id in idPedidos)
+            try
             {
-                PedidoDTO pedido = _pedidoService.GetById(id);
-                ClienteDTO cliente = _clienteService.GetById(pedido.IdCliente);
-                string endereco = cliente.Latitude.Replace(',','.')+","+cliente.Longitude.Replace(",",".");
-                enderecos.Add(endereco);
-            }
-            EntregaDTO entregaDTO = await _googleApiHelper.GeraRotaOtimizada(enderecos);
-            entregaDTO = Create(entregaDTO);
+                List<string> enderecos = new List<string>();
+                List<PedidoDTO> pedidos = new List<PedidoDTO>();
 
-            return entregaDTO;
+                foreach (var id in idPedidos)
+                {
+                    PedidoDTO pedido = _pedidoService.GetById(id);
+                    pedidos.Add(pedido);
+                    if (pedido.idEntrega != null)
+                    {
+                        throw new Exception($"Pedido{pedido.idEntrega} já está na entrega {pedido.idEntrega}");
+                    }
+                    ClienteDTO cliente = _clienteService.GetById(pedido.IdCliente);
+                    string endereco = cliente.Latitude.Replace(',', '.') + "," + cliente.Longitude.Replace(",", ".");
+                    enderecos.Add(endereco);
+                }
+                EntregaDTO entregaDTO = await _googleApiHelper.GeraRotaOtimizada(enderecos);
+                entregaDTO = Create(entregaDTO);
+
+                foreach (var pedido in pedidos)
+                {
+                    pedido.idEntrega = entregaDTO.IdEntrega;
+                    _pedidoService.Update(pedido);
+                }
+
+                return entregaDTO;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<EntregaDTO> GetAll() => _entregaRepository.GetAll();
